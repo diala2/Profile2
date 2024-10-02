@@ -8,16 +8,49 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var goal : String = ""
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+       
+            VStack (spacing:20){
+                Image("3d")
+                    .padding()
+                
+                
+                Text("Enter your monthly goal:")
+                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .fontWeight(.semibold)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                
+                TextField("1000...", text: $goal)
+                    .font(.headline)
+                    .foregroundColor(.black)
+                    .padding()
+                    .background(Color.accentColor)
+                    .tint(.orange)
+                    .cornerRadius(10)
+                
+            }
+            
+            .padding()
+            
+            VStack{
+                Button("Next"){
+                    print(goal)
+                }
+                .font(.headline)
+                .fontWeight(.semibold)
+                .frame(width: 300, height: 50)
+                .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.blue/*@END_MENU_TOKEN@*/)
+                .cornerRadius(10)
+            }
+            
+            .padding()
+            
         }
-        .padding()
+        
     }
-}
 
 #Preview {
     ContentView()
