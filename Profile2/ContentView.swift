@@ -28,7 +28,7 @@ struct ContentView: View {
                     .foregroundColor(.black)
                     .padding()
                     .background(Color.accentColor)
-                    .tint(.orange)
+                    .tint(.blue)
                     .cornerRadius(10)
                 
             }
