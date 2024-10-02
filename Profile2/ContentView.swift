@@ -28,14 +28,14 @@ struct ContentView: View {
                         .padding(.trailing)
                 }
                 
-                NavigationLink(destination: Splash()){
+                NavigationLink(destination: goal()){
                     Text("Get Started")
                         .font(.headline)
                         .foregroundColor(.white)
                         .padding()
                         .frame(width: 280 ,height: 50)
                         .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.blue/*@END_MENU_TOKEN@*/)
-                        .cornerRadius(10.0)
+                        .cornerRadius(10)
                     
                 }
                     
