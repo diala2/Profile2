@@ -8,25 +8,25 @@
 import SwiftUI
 
 struct goal: View {
-    @State var goal : String = ""
-    var body: some View {
+    @State private var goal: String = ""
+        @State private var showAlert = false
+        @State private var navigateToNextView = false
         
-
-    
-                NavigationView {
+        var body: some View {
+            NavigationView {
+                ZStack {
                     VStack(spacing: 54) {
-                        
-                        // Spacer to push the content upwards
+                       
                         Spacer(minLength: 20)
                         
-                        
+                       
                         Image("3D 1")
                             .resizable()
                             .scaledToFit()
                             .frame(height: 160)
                             .padding(.top, 10)
                         
-                        // Goal Input Section
+                      
                         VStack(alignment: .leading, spacing: 10) {
                             Text("Enter your monthly goal:")
                                 .font(.title2)
@@ -41,45 +41,93 @@ struct goal: View {
                         }
                         .padding(.horizontal)
                         
-                        // Button Section
-                        NavigationLink(destination: NextView(goal: goal)) {
+                       
+                        Button(action: {
+                            if goal.isEmpty {
+                                showAlert = true
+                                hideAlertWithDelay()
+                            } else {
+                                navigateToNextView = true
+                            }
+                        }) {
                             Text("Next")
                                 .font(.headline)
                                 .foregroundColor(.white)
                                 .padding()
-                                .frame(width: 280 ,height: 50)
-                                .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.blue/*@END_MENU_TOKEN@*/)
+                                .frame(width: 280, height: 50)
+                                .background(goal.isEmpty ? Color.gray : Color.blue)
                                 .cornerRadius(10)
-                              
                         }
                         .padding(.top, 40)
                         
                         Spacer()
                     }
-                   
                     .padding()
-                }
-            }
-        }
-
-      
-        struct NextView: View {
-            var goal: String
-            
-            var body: some View {
-                VStack {
-                    Text("Your goal is \(goal)")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .padding()
+                
+                    .navigationDestination(isPresented: $navigateToNextView) {
+                     
+                    }
                     
-                    Spacer()
+                    
+                    if showAlert {
+                        VStack {
+                            CustomAlertView(message: "Please enter a goal before proceeding.")
+                                .transition(.move(edge: .top))
+                            Spacer()
+                        }
+                        .zIndex(1) // Ensure the alert is above other views//
+                    }
                 }
-                .navigationTitle("Next Step")
             }
         }
+        
+        
+        func hideAlertWithDelay() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                withAnimation {
+                    showAlert = false
+                }
+            }
+        }
+    }
 
-        // Preview
+  
+    struct CustomAlertView: View {
+        var message: String
+        
+        var body: some View {
+            VStack {
+                Text(message)
+                    .foregroundColor(.color2)
+                    .font(.headline)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.color1)
+                    .cornerRadius(15)
+                    .padding(.top, 20)
+            }
+            .padding(.top, 10)
+        }
+    }
+
+    // Next View to navigate to//
+// احذفي ذا ديالا 
+    struct NextView: View {
+        var goal: String
+        
+        var body: some View {
+            VStack {
+                Text("Your goal is \(goal)")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding()
+                
+                Spacer()
+            }
+            .navigationTitle("Next Step")
+        }
+    }
+
         #Preview {
             ContentView()
         }
