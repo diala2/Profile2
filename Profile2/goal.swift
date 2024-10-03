@@ -11,15 +11,15 @@ struct goal: View {
     @State private var goal: String = ""
         @State private var showAlert = false
         @State private var navigateToNextView = false
-        
+        @FocusState private var isTextFieldFocused: Bool
+
         var body: some View {
             NavigationView {
                 ZStack {
                     VStack(spacing: 54) {
-                       
                         Spacer(minLength: 20)
                         
-                       
+                    
                         Image("3D 1")
                             .resizable()
                             .scaledToFit()
@@ -37,17 +37,19 @@ struct goal: View {
                                 .tint(.blue)
                                 .background(Color(.systemGray6))
                                 .cornerRadius(10)
-                                .keyboardType(.numberPad) // Set keyboard type for numeric input
+                                .keyboardType(.numberPad)
+                                .focused($isTextFieldFocused)
                         }
                         .padding(.horizontal)
                         
-                       
+                      
                         Button(action: {
                             if goal.isEmpty {
                                 showAlert = true
                                 hideAlertWithDelay()
                             } else {
                                 navigateToNextView = true
+                                isTextFieldFocused = false // 3. Dismiss keyboard on button press
                             }
                         }) {
                             Text("Next")
@@ -63,11 +65,14 @@ struct goal: View {
                         Spacer()
                     }
                     .padding()
-                
                     .navigationDestination(isPresented: $navigateToNextView) {
-                     
+                        NextView(goal: goal)
                     }
                     
+                    // Tap gesture to dismiss keyboard when tapping outside
+                    .onTapGesture {
+                        isTextFieldFocused = false // 4. Dismiss the keyboard on tap
+                    }
                     
                     if showAlert {
                         VStack {
@@ -75,13 +80,13 @@ struct goal: View {
                                 .transition(.move(edge: .top))
                             Spacer()
                         }
-                        .zIndex(1) // Ensure the alert is above other views//
+                        .zIndex(1)
                     }
                 }
             }
         }
         
-        
+        // Function to auto-hide the alert after 2 seconds
         func hideAlertWithDelay() {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 withAnimation {
@@ -91,7 +96,7 @@ struct goal: View {
         }
     }
 
-  
+   
     struct CustomAlertView: View {
         var message: String
         
@@ -111,7 +116,7 @@ struct goal: View {
     }
 
     // Next View to navigate to//
-// احذفي ذا ديالا 
+   // احذفي ذا ديالا
     struct NextView: View {
         var goal: String
         
