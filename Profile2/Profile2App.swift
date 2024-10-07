@@ -11,7 +11,7 @@ import SwiftUI
 struct Profile2App: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Splash()
         }
     }
 }
